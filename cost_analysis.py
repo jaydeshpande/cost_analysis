@@ -3,7 +3,7 @@
 
 from numpy import random as rd
 import pandas as pd
-
+import time as t
 
 class amazon_price_structure: # This class is used to calculate the cost of delivery/fulfilment
     total_no_items = 0
@@ -80,6 +80,7 @@ class article_properties:
     def if_sold(self):
         article_properties.no_articles -= 1
 
+
     @classmethod
     def how_many_fusion(cls):
         return cls.fusion_articles
@@ -88,14 +89,24 @@ class article_properties:
         return cls.standard_articles
 
 class buyer:
-    interest = 0
     no_buyers = 0
 
-    def __init__(self,list):
+    def __init__(self):
         buyer.no_buyers+=1 # increment counter representing articles
         self.interest = rd.random() # buyer interest needs to be topped by product appeal  45/
+        self.buying_power = rd.randint(0,45) # this models a random buying power
+        self.bought_articles = 0
+        self.basket = []
 
-
+    def if_bought(self,article_price,article):
+        self.buying_power -= article_price
+        self.bought_articles += 1
+        self.interest = rd.random() # after the buyer has bought something, it will recalculate the interest
+        # recalculating interest is an interesting idea - sort of tells about mass shopping
+        # try making the interest unchanged to see the effect
+        self.basket.append(article)
+        print "Customer Bought {}".format(article)
+''' This section imports data from the excel file to create the necessary DS for items '''
 
 product_description = pd.ExcelFile("article_pricing.xlsx")
 pdes =product_description.parse("Sheet1",index_col="article")
@@ -112,4 +123,31 @@ for i, row in pdes.iterrows():
 for i, row in pdes.iterrows():
     total_cost [i] = pipeline_cost[i].total_amazon_per_item() + article_details[i].calculate_selling_price(0.02)
 
+''' Data import complete - total selling prices are calculated in total_cost dictionary, amazon cost is calculated 
+in pipeline_cost dictionary, article details are calculated and setup in article_details dictionary 
 
+For any item, i, the instance can be accessed using key value pair approach '''
+
+active_visitors = 100
+
+customer = {}
+for i in range(0,active_visitors,1):
+    customer[i] = buyer()
+
+    for key in article_details.iterkeys():
+        print article_details[key].appeal, customer[i].interest
+        t.sleep(0.2)
+        if (article_details[key].appeal > customer[i].interest) and (customer[i].buying_power > article_details[key].sp) \
+                and (article_details[key].no_articles >0):
+            article_details[key].if_sold()
+            print article_details[key].no_articles
+            print customer[i].buying_power
+
+            customer[i].if_bought(article_details[key].sp,article_details[key].name)
+            if customer[i].buying_power < 5:
+                print customer[i].buying_power
+                break
+    print customer[i].basket
+
+
+print "\n Everything sold out"

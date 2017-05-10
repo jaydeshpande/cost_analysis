@@ -3,6 +3,8 @@
 
 from numpy import random as rd
 import pandas as pd
+
+
 class amazon_price_structure: # This class is used to calculate the cost of delivery/fulfilment
     total_no_items = 0
     """
@@ -56,6 +58,7 @@ class article_properties:
         self.cp = cp
         self.sp = 0
         self.probability = rd.random()
+        self.appeal = rd.random() # Appeal of a product -- if exceeds buyer interest then buyer buys the product
 
     def if_fusion_product(self):
         if self.fusion == 'fusion':
@@ -74,6 +77,9 @@ class article_properties:
         expenditure = marketing_budget * (1-self.probability)
     '''
 
+    def if_sold(self):
+        article_properties.no_articles -= 1
+
     @classmethod
     def how_many_fusion(cls):
         return cls.fusion_articles
@@ -81,6 +87,13 @@ class article_properties:
     def how_many_standard(cls):
         return cls.standard_articles
 
+class buyer:
+    interest = 0
+    no_buyers = 0
+
+    def __init__(self,list):
+        buyer.no_buyers+=1 # increment counter representing articles
+        self.interest = rd.random() # buyer interest needs to be topped by product appeal  45/
 
 
 
@@ -99,5 +112,4 @@ for i, row in pdes.iterrows():
 for i, row in pdes.iterrows():
     total_cost [i] = pipeline_cost[i].total_amazon_per_item() + article_details[i].calculate_selling_price(0.02)
 
-#print total_cost
-print total_cost
+

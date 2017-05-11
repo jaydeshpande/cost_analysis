@@ -49,7 +49,7 @@ class article_properties:
     fusion_articles = 0
     standard_articles = 0
 
-    def __init__(self,theme,name,weight,volume,cp):
+    def __init__(self,theme,name,weight,volume,cp,inv):
         article_properties.no_articles+=1 # increment counter representing articles
         self.fusion = theme
         self.name = name
@@ -57,6 +57,7 @@ class article_properties:
         self.volume = volume
         self.cp = cp
         self.sp = 0
+        self.inventory = inv
         self.probability = rd.random()
         self.appeal = rd.random() # Appeal of a product -- if exceeds buyer interest then buyer buys the product
 
@@ -78,7 +79,11 @@ class article_properties:
     '''
 
     def if_sold(self):
-        article_properties.no_articles -= 1
+        if self.inventory >= 1:
+            self.inventory -= 1
+        elif self.inventory == 0:
+            article_properties.no_articles -= 1
+            print ("Item {} Unavailable".format(self.name))
 
 
     @classmethod
@@ -95,13 +100,11 @@ class buyer:
         buyer.no_buyers+=1 # increment counter representing articles
         self.interest = rd.random() # buyer interest needs to be topped by product appeal  45/
         self.buying_power = rd.randint(0,45) # this models a random buying power
-        self.bought_articles = 0
         self.basket = []
 
     def if_bought(self,article_price,article):
         self.buying_power -= article_price
-        self.bought_articles += 1
-        self.interest = rd.random() # after the buyer has bought something, it will recalculate the interest
+        #self.interest = rd.random() # after the buyer has bought something, it will recalculate the interest
         # recalculating interest is an interesting idea - sort of tells about mass shopping
         # try making the interest unchanged to see the effect
         self.basket.append(article)
@@ -118,7 +121,7 @@ total_cost = {}
 
 for i, row in pdes.iterrows():
     pipeline_cost[i] = amazon_price_structure(39.99, 0.3, 0.1, 0.25, pdes.volume[i], pdes.no[i], pdes.weight[i])
-    article_details[i] = article_properties(pdes.theme[i],i,0.5,0.5,pdes.cp[i])
+    article_details[i] = article_properties(pdes.theme[i],i,0.5,0.5,pdes.cp[i],pdes.no[i])
 
 for i, row in pdes.iterrows():
     total_cost [i] = pipeline_cost[i].total_amazon_per_item() + article_details[i].calculate_selling_price(0.02)
@@ -128,26 +131,36 @@ in pipeline_cost dictionary, article details are calculated and setup in article
 
 For any item, i, the instance can be accessed using key value pair approach '''
 
-active_visitors = 100
+active_visitors = 1000
+
+print article_properties.no_articles
+
 
 customer = {}
 for i in range(0,active_visitors,1):
     customer[i] = buyer()
 
+    if article_properties.no_articles == 0:
+        print article_properties.no_articles
+        break
+
     for key in article_details.iterkeys():
         print article_details[key].appeal, customer[i].interest
-        t.sleep(0.2)
+
         if (article_details[key].appeal > customer[i].interest) and (customer[i].buying_power > article_details[key].sp) \
-                and (article_details[key].no_articles >0):
+                and (article_details[key].inventory >0):
             article_details[key].if_sold()
-            print article_details[key].no_articles
-            print customer[i].buying_power
+
+            if article_details[key].inventory == 0:
+                article_properties.no_articles -= 1
 
             customer[i].if_bought(article_details[key].sp,article_details[key].name)
             if customer[i].buying_power < 5:
-                print customer[i].buying_power
                 break
+
     print customer[i].basket
 
-
-print "\n Everything sold out"
+print article_properties.no_articles
+print i
+print "Everything Sold Out"
+print 'Customers Left Unsatisfied {}'.format((active_visitors-i))

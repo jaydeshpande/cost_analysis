@@ -133,20 +133,15 @@ For any item, i, the instance can be accessed using key value pair approach '''
 
 active_visitors = 1000
 
-print article_properties.no_articles
-
 
 customer = {}
 for i in range(0,active_visitors,1):
     customer[i] = buyer()
 
     if article_properties.no_articles == 0:
-        print article_properties.no_articles
         break
 
     for key in article_details.iterkeys():
-        print article_details[key].appeal, customer[i].interest
-
         if (article_details[key].appeal > customer[i].interest) and (customer[i].buying_power > article_details[key].sp) \
                 and (article_details[key].inventory >0):
             article_details[key].if_sold()
@@ -160,7 +155,6 @@ for i in range(0,active_visitors,1):
 
     print customer[i].basket
 
-print article_properties.no_articles
-print i
+
 print "Everything Sold Out"
 print 'Customers Left Unsatisfied {}'.format((active_visitors-i))

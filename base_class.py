@@ -5,6 +5,7 @@ from numpy import random as rd
 import pandas as pd
 import time as t
 
+
 class amazon_price_structure: # This class is used to calculate the cost of delivery/fulfilment
     total_no_items = 0
     """
@@ -28,26 +29,19 @@ class amazon_price_structure: # This class is used to calculate the cost of deli
         self.weight_items = weight_items
         amazon_price_structure.total_no_items += no_items
 
-    def calculate_storage(self):
-        storage_cost = self.per_cu_ft*self.storage_vol # this calculation assumes monthly cost -- likely to vary
-        return storage_cost
 
     def calculate_shipping(self):
-        return self.standard_shipping
-
-    def calculate_variable_shipping(self):
-        return self.variable_shipping*self.weight_items
-
-    def calculate_monthly_amazon_per_item(self):
-        return self.amazon_per_mo/amazon_price_structure.total_no_items # assumes monthly charges
-
-    def total_amazon_per_item(self):
-        return self.calculate_monthly_amazon_per_item() + self.calculate_shipping() + self.calculate_storage() + self.calculate_variable_shipping()
+         total_shipping =  self.standard_shipping + \
+         self.variable_shipping*self.weight_items + \
+         self.amazon_per_mo / amazon_price_structure.total_no_items + \
+         self.per_cu_ft * self.storage_vol
+         return total_shipping
 
 class article_properties:
     no_articles = 0
     fusion_articles = 0
     standard_articles = 0
+    total_cost_price_to_us = 0
     total_profit = 0
 
     def __init__(self,theme,name,weight,volume,cp,inv):
@@ -57,10 +51,12 @@ class article_properties:
         self.weight = weight
         self.volume = volume
         self.cp = cp
+        article_properties.total_cost_price_to_us += cp*inv
         self.sp = 0
         self.profit = 0
         self.inventory = inv
         self.appeal = rd.random() # Appeal of a product -- if exceeds buyer interest then buyer buys the product
+        self.mrp = 0
 
     def if_fusion_product(self):
         if self.fusion == 'fusion':
@@ -74,16 +70,10 @@ class article_properties:
         self.sp = self.cp*(1+profit_in_percent)
         return self.sp
 
-    ''' 
-    def cost_of_marketing(self,marketing_budget):
-        expenditure = marketing_budget * (1-self.probability)
-    '''
-
     def if_sold(self):
         if self.inventory >= 1:
             self.inventory -= 1
-            self.profit += (self.sp - self.cp)
-            article_properties.total_profit += self.profit
+            article_properties.total_profit += self.sp - self.cp
 
         elif self.inventory == 0:
             article_properties.no_articles -= 1
@@ -110,5 +100,16 @@ class buyer:
         # recalculating interest is an interesting idea - sort of tells about mass shopping
         # try making the interest unchanged to see the effect
         self.basket.append(article)
-        print "Customer Bought {}".format(article)
 
+class operation:
+
+    def __init__(self,employees):
+        self.employees = employees
+        self.month = 1
+        self.fixed_costs = 200 # comprises of registration costs
+
+
+    def calculate_revenue(self):
+        min_salary = self.employees*130
+        self.revenue = article_properties.total_profit - (min_salary + self.fixed_costs)
+        return self.revenue

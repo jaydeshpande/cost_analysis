@@ -1,3 +1,5 @@
+''' This section imports data from the excel file to create the necessary DS for items '''
+
 product_description = pd.ExcelFile("article_pricing.xlsx")
 pdes =product_description.parse("Sheet1",index_col="article")
 

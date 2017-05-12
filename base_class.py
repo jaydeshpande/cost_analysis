@@ -111,5 +111,4 @@ class buyer:
         # try making the interest unchanged to see the effect
         self.basket.append(article)
         print "Customer Bought {}".format(article)
-''' This section imports data from the excel file to create the necessary DS for items '''
 

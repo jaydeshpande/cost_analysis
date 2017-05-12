@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bde3a338-f322-464f-af00-f51fcfd3859e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/project.py" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/~$article_pricing.xlsx" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cost_analysis.py" afterPath="$PROJECT_DIR$/cost_analysis.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/project.py" afterPath="$PROJECT_DIR$/project.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,8 +21,8 @@
       <file leaf-file-name="cost_analysis.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cost_analysis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+            <state relative-caret-position="228">
+              <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
               <folding>
                 <element signature="e#170#200#0" expanded="true" />
                 <element signature="e#339#2120#0" expanded="false" />
@@ -38,8 +36,8 @@
       <file leaf-file-name="project.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+            <state relative-caret-position="171">
+              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -282,8 +280,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cost_analysis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="96" column="0" lean-forward="true" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+        <state relative-caret-position="228">
+          <caret line="113" column="0" lean-forward="false" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding>
             <element signature="e#170#200#0" expanded="true" />
             <element signature="e#339#2120#0" expanded="false" />
@@ -295,8 +293,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="32" column="56" lean-forward="true" selection-start-line="32" selection-start-column="56" selection-end-line="32" selection-end-column="56" />
+        <state relative-caret-position="171">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
           <folding />
         </state>
       </provider>
